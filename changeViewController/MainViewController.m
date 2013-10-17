@@ -103,9 +103,19 @@ ThirdViewController *thirdViewController;
         case 3:
         {
             NSLog(@"好友申请");
-            [self transitionFromViewController:currentViewController toViewController:thirdViewController duration:1 options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
+            
+            CGRect oldFrame = currentViewController.view.frame;
+            CGRect newFrame = oldFrame;
+            newFrame.origin.x = -oldFrame.size.width;
+            thirdViewController.view.frame = newFrame;
 
+            [self transitionFromViewController:currentViewController toViewController:thirdViewController duration:1 options:UIViewAnimationOptionTransitionNone animations:^{
+                
+                thirdViewController.view.frame = oldFrame;
+                currentViewController.view.frame = newFrame;
+                
             }  completion:^(BOOL finished) {
+                currentViewController.view.frame = oldFrame;
                 if (finished) {
                      currentViewController=thirdViewController;
                 }else{
